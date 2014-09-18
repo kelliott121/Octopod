@@ -1,3 +1,5 @@
+#include <stdint.h>
+
 class Point3D
 {
   public:

@@ -1,14 +1,15 @@
 #include "Joint.h"
 
-Joint::Joint(Servo *newServo)
+Joint::Joint(Servo *newServo, int16_t offset)
 {
 	servo = newServo;
+	angularOffset = offset;
 	
-	int15_t halfRange = servo->getRange() / 2;
+	int16_t halfRange = servo->getRange() / 2;
 	// Default home is center of travel on the servo
 	homeOffset = halfRange;
 	softLimitLo = -halfRange;
-	softLimitHigh = halfRange;
+	softLimitHi = halfRange;
 }
 
 	
@@ -23,6 +24,16 @@ void Joint::setHome(int16_t newHome)
 int16_t Joint::getHome()
 {
 	return homeOffset;
+}
+
+void setOffset(int16_t newOffset)
+{
+	angularOffset = newOffset;
+}
+
+int16_t getOffset()
+{
+	return angularOffset;
 }
 
 void Joint::setAngle(int16_t newAngle)

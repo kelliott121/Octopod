@@ -13,18 +13,18 @@ class Servo
 	uint8_t inverted;
 	
 	// DRIVER DATA
-	Adafruit_PWMServoDriver driver;
+	Adafruit_PWMServoDriver *driver;
 	uint8_t servoNumber;
 	
   public:
 	// Constructor
-    Servo(Adafruit_PWMServoDriver newDriver, uint16_t newRange, uint16_t pulseWidthMin, uint16_t pulseWidthMax, uint8_t newInverted);
+    Servo(Adafruit_PWMServoDriver *newDriver, uint8_t newNum, uint16_t newRange, uint16_t pulseWidthMin, uint16_t pulseWidthMax, uint8_t newInverted);
 	
 	/*************************************************************************/
 	/******************************POSITION DATA******************************/
 	/*************************************************************************/
 	void		setRange(uint16_t newRange);
-	uint16_T	getRange();
+	uint16_t	getRange();
 	
 	void		setAngle(uint16_t newAngle);
 	uint16_t	getAngle();
@@ -40,8 +40,8 @@ class Servo
 	/*******************************DRIVER DATA*******************************/
 	/*************************************************************************/
 	
-	void		setDriver(Adafruit_PWMServoDriver newDriver);
-	Adafruit_PWMServoDriver	getDriver();
+	void		setDriver(Adafruit_PWMServoDriver *newDriver);
+	Adafruit_PWMServoDriver	*getDriver();
 	
 	void		setServoNumber(uint8_t newNum);
 	uint8_t		getServoNumber();

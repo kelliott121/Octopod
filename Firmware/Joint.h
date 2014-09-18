@@ -4,6 +4,7 @@ class Joint
 {
 	// POSITION DATA
 	int16_t homeOffset;
+	int16_t angularOffset;
 	int16_t softLimitLo, softLimitHi;
 	int16_t angle;
 	
@@ -11,13 +12,16 @@ class Joint
 	
   public:
 	// Constructor
-    Joint(Servo *newServo);
+    Joint(Servo *newServo, int16_t offset);
 	
 	/*************************************************************************/
 	/******************************POSITION DATA******************************/
 	/*************************************************************************/
 	void	setHome(int16_t newHome);
 	int16_t	getHome();
+	
+	void	setOffset(int16_t newOffset);
+	int16_t	getOffset();
 	
 	void	setAngle(int16_t newAngle);
 	int16_t	getAngle();
