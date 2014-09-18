@@ -12,6 +12,11 @@ Joint::Joint(Servo *newServo, int16_t offset)
 	softLimitHi = halfRange;
 }
 
+Joint::~Joint()
+{
+	delete servo;
+}
+
 	
 /*************************************************************************/
 /******************************POSITION DATA******************************/

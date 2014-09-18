@@ -14,7 +14,8 @@ class Leg
 	Point3D *point;
 	
 	// Constructor
-    Leg(Point3D *rootPoint, uint16_t newCoxaLength, newTrochanterLength, newPatellaLength, Joint *newCoxa, Joint *newTrochanter, Joint *newPatella);
+    Leg(Point3D *rootPoint, uint16_t newCoxaLength, uint16_t newTrochanterLength, uint16_t newPatellaLength, Joint *newCoxa, Joint *newTrochanter, Joint *newPatella);
+	~Leg();
 	
 	/*************************************************************************/
 	/****************************MOTION FUNCTIONS*****************************/
@@ -25,4 +26,10 @@ class Leg
 	void moveToCartesian(int16_t X, int16_t Y, int16_t Z);
 	void moveAngular(int16_t coxaAngle, int16_t trochanterAngle, int16_t patellaAngle);
 	void moveToAngular(int16_t coxaAngle, int16_t trochanterAngle, int16_t patellaAngle);
+	
+	/*************************************************************************/
+	/**************************TRAJECTORY FUNCTIONS***************************/
+	/*************************************************************************/
+	void arc(Point3D *target, int16_t radius, uint16_t speed);
+	void linear(Point3D *target, uint16_t speed);
 };

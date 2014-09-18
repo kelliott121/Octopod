@@ -1,6 +1,6 @@
 #include "Leg.h"
 
-Leg::Leg(Point3D *rootPoint, uint16_t newCoxaLength, newTrochanterLength, newPatellaLength, Joint *newCoxa, Joint *newTrochanter, Joint *newPatella)
+Leg::Leg(Point3D *rootPoint, uint16_t newCoxaLength, uint16_t newTrochanterLength, uint16_t newPatellaLength, Joint *newCoxa, Joint *newTrochanter, Joint *newPatella)
 {
 	root = rootPoint;
 	coxaLength = newCoxaLength;
@@ -9,6 +9,14 @@ Leg::Leg(Point3D *rootPoint, uint16_t newCoxaLength, newTrochanterLength, newPat
 	coxa = newCoxa;
 	trochanter = newTrochanter;
 	patella = newPatella;
+}
+
+Leg::~Leg()
+{
+	delete rootPoint;
+	delete coxa;
+	delete trochanter;
+	delete patella;
 }
 
 /*************************************************************************/
@@ -35,6 +43,7 @@ void moveCartesian(Point3D *target)
 										root->y + target->y,
 										root->z + target->z);
 	moveToCartesian(absTarget);
+	delete absTarget;
 }
 
 void moveToCartesian(Point3D *target)
@@ -72,4 +81,80 @@ void moveToAngular(int16_t coxaAngle, int16_t trochanterAngle, int16_t patellaAn
 	coxa->moveTo(coxaAngle);
 	trochanter->moveTo(trochanterAngle);
 	patella->moveTo(patellaAngle);
+}
+
+void arc(Point3D *target, int16_t radius, uint16_t speed)
+{
+	float startX, startY, startZ;
+	float endX, endY, endZ;
+	float centerX, centerY, centerZ;
+	float tempX, tempY, tempZ;
+	float coeffStart, coeffEnd;
+	Point3D *tempPoint = new Point3D(0, 0, 0);
+	
+	startX = point->x;
+	startY = point->y;
+	startZ = point->z;
+	endX = point->x;
+	endY = point->y;
+	endZ = point->z;
+	
+	centerX = (startX + endX) / 2.0;
+	centerY = (startY + endY) / 2.0;
+	centerZ = (startZ + endZ) / 2.0;
+	
+	float traversedAngle = 180;
+	float incrementAngle = 30;
+	
+	for (float angle = incrementAngle; angle < traversedAngle; angle++)
+	{
+		coeffStart = sin(traversedAngle - angle);
+		coeffEnd = sin(angle);
+		tempX = centerX + (((coeffStart * startX) + (coeffEnd * endX)) / sin(angle));
+		tempY = centerY + (((coeffStart * startY) + (coeffEnd * endY)) / sin(angle));
+		tempZ = centerZ + (((coeffStart * startZ) + (coeffEnd * endZ)) / sin(angle));
+		
+		tempPoint->x = tempX;
+		tempPoint->y = tempY;
+		tempPoint->z = tempZ;
+		
+		moveCartesian(tempPoint);
+	}
+	
+	moveCartesian(target);
+	
+	delete tempPoint;
+}
+
+void linear(Point3D *target, uint16_t speed)
+{
+	float startX, startY, startZ;
+	float endX, endY, endZ;
+	float diffX, diffY, diffZ;
+	float percentage;
+	Point3D *tempPoint = new Point3D(0, 0, 0);
+	
+	startX = point->x;
+	startY = point->y;
+	startZ = point->z;
+	endX = point->x;
+	endY = point->y;
+	endZ = point->z;
+	
+	diffX = startX - endX;
+	diffY = startY - endY;
+	diffZ = startZ - endZ;
+	
+	for (percentage = 10; percentage < 100; percentage+=10)
+	{
+		tempPoint->x = diffX * percentage;
+		tempPoint->y = diffY * percentage;
+		tempPoint->z = diffZ * percentage;
+		
+		moveCartesian(target);
+	}
+	
+	moveCartesian(target);
+	
+	delete tempPoint;
 }
