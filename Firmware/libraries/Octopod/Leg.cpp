@@ -92,6 +92,9 @@ void Leg::arc(Point3D *target, int16_t radius, uint16_t speed)
 	float coeffStart, coeffEnd;
 	Point3D *tempPoint = new Point3D(0, 0, 0);
 	
+	unsigned long expireTime;
+	uint16_t timeBetweenPoints = 1000 / speed;
+	
 	startX = point->x;
 	startY = point->y;
 	startZ = point->z;
@@ -118,10 +121,14 @@ void Leg::arc(Point3D *target, int16_t radius, uint16_t speed)
 		tempPoint->y = tempY;
 		tempPoint->z = tempZ;
 		
-		moveCartesian(tempPoint);
+		moveToCartesian(tempPoint);
+		while (millis() < expireTime)
+		{
+			delay(1);
+		}
 	}
 	
-	moveCartesian(target);
+	moveToCartesian(target);
 	
 	delete tempPoint;
 }
@@ -133,6 +140,9 @@ void Leg::linear(Point3D *target, uint16_t speed)
 	float diffX, diffY, diffZ;
 	float percentage;
 	Point3D *tempPoint = new Point3D(0, 0, 0);
+	
+	unsigned long expireTime;
+	uint16_t timeBetweenPoints = 1000 / speed;
 	
 	startX = point->x;
 	startY = point->y;
@@ -147,14 +157,19 @@ void Leg::linear(Point3D *target, uint16_t speed)
 	
 	for (percentage = 10; percentage < 100; percentage+=10)
 	{
+		expireTime = millis() + timeBetweenPoints;
 		tempPoint->x = diffX * percentage;
 		tempPoint->y = diffY * percentage;
 		tempPoint->z = diffZ * percentage;
 		
-		moveCartesian(target);
+		moveToCartesian(target);
+		while (millis() < expireTime)
+		{
+			delay(1);
+		}
 	}
 	
-	moveCartesian(target);
+	moveToCartesian(target);
 	
 	delete tempPoint;
 }

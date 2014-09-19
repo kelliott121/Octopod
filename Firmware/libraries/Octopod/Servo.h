@@ -1,10 +1,6 @@
 #include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 class Servo
 {
 	// POSITION DATA
@@ -58,7 +54,3 @@ class Servo
 	void center();
 	void sweep(uint8_t numIterations, uint16_t delayTime);
 };
-
-#ifdef __cplusplus
-}
-#endif

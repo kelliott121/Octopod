@@ -56,7 +56,13 @@ Octopod::Octopod()
 
 Octopod::~Octopod()
 {
+	for (int i = 0; i < NUM_LEGS; i++)
+	{
+		delete legs[i];
+	}
 	
+	delete rightDriver;
+	delete leftDriver;
 }
 
 /*************************************************************************/
