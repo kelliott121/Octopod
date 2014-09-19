@@ -13,7 +13,7 @@ Leg::Leg(Point3D *rootPoint, uint16_t newCoxaLength, uint16_t newTrochanterLengt
 
 Leg::~Leg()
 {
-	delete rootPoint;
+	delete root;
 	delete coxa;
 	delete trochanter;
 	delete patella;
@@ -23,7 +23,7 @@ Leg::~Leg()
 /****************************MOTION FUNCTIONS*****************************/
 /*************************************************************************/
 
-	void Leg::home()
+void Leg::home()
 {
 	coxa->home();
 	trochanter->home();
@@ -37,7 +37,7 @@ void Leg::home(uint16_t speed)
 	patella->home(speed);
 }
 
-void moveCartesian(Point3D *target)
+void Leg::moveCartesian(Point3D *target)
 {
 	Point3D *absTarget = new Point3D(	root->x + target->x,
 										root->y + target->y,
@@ -46,7 +46,7 @@ void moveCartesian(Point3D *target)
 	delete absTarget;
 }
 
-void moveToCartesian(Point3D *target)
+void Leg::moveToCartesian(Point3D *target)
 {
 	float coxaAngle = atan((target->y - root->y) / (target->x - root->x));
 	
@@ -54,14 +54,14 @@ void moveToCartesian(Point3D *target)
 	float alpha1, alpha2;
 	float lengthRZ;
 	float lengthXY = sqrt(pow(target->x - root->x, 2) + pow(target->y - root->y, 2));
-	lengthRZ = sqrt(pow(root->z - target->z, 2) + pow(lengthXY - coxaLength));
+	lengthRZ = sqrt(pow(root->z - target->z, 2) + pow(lengthXY - coxaLength, 2));
 	
 	alpha1 = acos((root->z - target->z) / lengthRZ);
 	alpha2 = acos((pow(patellaLength, 2) - pow(trochanterLength, 2) - pow(lengthRZ, 2)) / (-2 * trochanterLength * lengthRZ));
 	
 	trochanterAngle = alpha1 + alpha2;
 	
-	patellaAngle = acos((pow(lengthRZ, 2) - pow(lengthPatella, 2) - pow(lengthTrochanter, 2)) / (-2 * patellaLength * lengthRZ));
+	patellaAngle = acos((pow(lengthRZ, 2) - pow(patellaLength, 2) - pow(trochanterLength, 2)) / (-2 * patellaLength * lengthRZ));
 	
 	moveToAngular((int16_t)coxaAngle, (int16_t)trochanterAngle, (int16_t)patellaAngle);
 	point->x = target->x;
@@ -69,21 +69,21 @@ void moveToCartesian(Point3D *target)
 	point->z = target->z;
 }
 
-void moveAngular(int16_t coxaAngle, int16_t trochanterAngle, int16_t patellaAngle)
+void Leg::moveAngular(int16_t coxaAngle, int16_t trochanterAngle, int16_t patellaAngle)
 {
 	coxa->move(coxaAngle);
 	trochanter->move(trochanterAngle);
 	patella->move(patellaAngle);
 }
 
-void moveToAngular(int16_t coxaAngle, int16_t trochanterAngle, int16_t patellaAngle)
+void Leg::moveToAngular(int16_t coxaAngle, int16_t trochanterAngle, int16_t patellaAngle)
 {
 	coxa->moveTo(coxaAngle);
 	trochanter->moveTo(trochanterAngle);
 	patella->moveTo(patellaAngle);
 }
 
-void arc(Point3D *target, int16_t radius, uint16_t speed)
+void Leg::arc(Point3D *target, int16_t radius, uint16_t speed)
 {
 	float startX, startY, startZ;
 	float endX, endY, endZ;
@@ -126,7 +126,7 @@ void arc(Point3D *target, int16_t radius, uint16_t speed)
 	delete tempPoint;
 }
 
-void linear(Point3D *target, uint16_t speed)
+void Leg::linear(Point3D *target, uint16_t speed)
 {
 	float startX, startY, startZ;
 	float endX, endY, endZ;

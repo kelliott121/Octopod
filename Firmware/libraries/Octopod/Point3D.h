@@ -1,7 +1,7 @@
-#include <stdint.h>
-
 #ifndef POINT3D_H
 #define POINT3D_H
+
+#include <stdint.h>
 
 class Point3D
 {

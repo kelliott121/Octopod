@@ -1,8 +1,5 @@
 #include <stdint.h>
 
-#ifndef POINT3D_H
-#define POINT3D_H
-
 class Point3D
 {
   public:
@@ -12,4 +9,3 @@ class Point3D
     Point3D(uint16_t newX, uint16_t newY, uint16_t newZ);
 	
 };
-#endif

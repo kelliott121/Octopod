@@ -22,7 +22,7 @@ class Leg
 	/*************************************************************************/
 	void home();
 	void home(uint16_t speed);
-	void moveCartesian(int16_t X, int16_t Y, int16_t Z);
+	void moveCartesian(Point3D *target);
 	void moveToCartesian(int16_t X, int16_t Y, int16_t Z);
 	void moveAngular(int16_t coxaAngle, int16_t trochanterAngle, int16_t patellaAngle);
 	void moveToAngular(int16_t coxaAngle, int16_t trochanterAngle, int16_t patellaAngle);
